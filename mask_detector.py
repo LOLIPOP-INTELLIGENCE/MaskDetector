@@ -3,7 +3,8 @@ import numpy as np
 import cv2
 import pathlib
 
-interpreter = tf.lite.Interpreter(model_path="/Users/blackhole/Downloads/model-export_iod_tflite-Masks_Final-2020-07-04T07_59_13.216Z_model.tflite")
+interpreter = tf.lite.Interpreter(model_path="path_to_model.tflite")
+#Provide your local path to the tflite Interpreter
 
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
@@ -32,8 +33,7 @@ while(True):
 
     ret, frame = vid.read()
     new_img=cv2.resize(frame,(512,512))
-#img = cv2.imread('/Users/blackhole/Downloads/Archive 4/315ab0cc-9776-4954-a4f7-d4e3edd80cba.JPG')
-#new_img = cv2.resize(img, (512, 512))
+
     interpreter.set_tensor(input_details[0]['index'], [new_img])
 
     interpreter.invoke()
