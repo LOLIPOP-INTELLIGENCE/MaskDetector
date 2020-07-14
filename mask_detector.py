@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import urllib
 
-#Add utl path with the /shot.jpg at the end
+#Add url path with the /shot.jpg at the end
 url='http://192.168.1.21:8080/shot.jpg'
 
 
