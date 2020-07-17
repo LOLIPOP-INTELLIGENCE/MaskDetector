@@ -3,6 +3,8 @@ import cv2
 import numpy as np
 import urllib
 
+#Add utl path with the /shot.jpg at the end
+url='http://192.168.1.21:8080/shot.jpg'
 
 
 interpreter = tf.lite.Interpreter(model_path="/Users/blackhole/Desktop/Mask Detection Model/masks-final2.tflite")
@@ -14,7 +16,6 @@ output_details = interpreter.get_output_details()
 
 interpreter.allocate_tensors()
 
-vid = cv2.VideoCapture(0)
 
 i=0
 
@@ -43,9 +44,11 @@ def draw_rect(image, box,detected_class):
 
 while(True):
     #Code to process image
+    img=urllib.request.urlopen(url)
+    imgNp=np.array(bytearray(img.read()),dtype=np.uint8)
+    new_img=cv2.imdecode(imgNp,-1)
+    new_img=cv2.resize(new_img,(512,512))
 
-    ret, frame = vid.read()
-    new_img=cv2.resize(frame,(512,512))
     interpreter.set_tensor(input_details[0]['index'], [new_img])
 
     interpreter.invoke()
@@ -67,5 +70,4 @@ while(True):
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-vid.release()
 cv2.destroyAllWindows()
